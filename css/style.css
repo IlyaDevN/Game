@@ -1,0 +1,32 @@
+.area {
+	position: relative;
+	box-sizing: border-box;
+	width: 1200px;
+	height: 900px;
+	border: 1px solid rgb(51, 10, 235);
+	margin: 0 auto;
+}
+
+.play_filed {
+	display: inline-block;
+}
+
+.count_field {
+	display: inline-block;
+	position: absolute;
+	right: 125px;
+	top: 80px;
+}
+
+.figure {
+	display: inline-block;
+	position: absolute;
+	right: 130px;
+	top: 85px;
+	transition: viewBox 1s;
+}
+
+.count_list {
+	transform: translateY(0);
+	transition: transform 1s;
+}
