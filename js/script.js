@@ -1,6 +1,5 @@
 const rect = document.getElementById("rect");
 const rectDynamic = document.getElementById("rectDynamic");
-const figure = document.querySelector(".figure");
 const countList = document.querySelector(".count_list");
 const timerAnimation = 1000;
 let pointShift = 0;
@@ -41,7 +40,7 @@ const BUTTONS = {
 			direction = "x";
 		}
 	},
-	"Space": function start() {
+	"Space": function () {
 
 		if (isPaused) {
 			pause();

@@ -30,3 +30,40 @@
 	transform: translateY(0);
 	transition: transform 1s;
 }
+
+.keyboard {
+	display: block;
+	position: absolute;
+	right: 25px;
+	top: 458px;
+}
+
+.underlayer {
+	fill: black;
+	fill-opacity: 0.2;
+	stroke: #1DE019;
+	stroke-opacity:0.5;
+}
+
+.background {
+	fill: black;
+	fill-opacity: 0.2;
+	stroke: #1DE019;
+	stroke-opacity:0.5;
+}
+
+.arrow {
+	fill: #2B2A29;
+	stroke: #1DE019;
+	stroke-opacity:0.5;
+}
+
+.text {
+	fill: black;
+	font-family: 'Inter';
+	font-size: 32px;
+	text-align: center;
+	stroke: #1DE019;
+	stroke-width: 0.5;
+	stroke-opacity:0.5;
+}
