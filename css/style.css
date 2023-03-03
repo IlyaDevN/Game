@@ -42,20 +42,28 @@
 	fill: black;
 	fill-opacity: 0.2;
 	stroke: #1DE019;
-	stroke-opacity:0.5;
+	stroke-opacity: 0.5;
 }
 
 .background {
-	fill: black;
+	fill: #2c2c2c;
 	fill-opacity: 0.2;
 	stroke: #1DE019;
-	stroke-opacity:0.5;
+	stroke-opacity: 0.5;
+}
+
+.button {
+	cursor: pointer;
+}
+
+.button.active .background {
+	filter: url("#inset-shadow");
 }
 
 .arrow {
 	fill: #2B2A29;
 	stroke: #1DE019;
-	stroke-opacity:0.5;
+	stroke-opacity: 0.5;
 }
 
 .text {
@@ -65,5 +73,6 @@
 	text-align: center;
 	stroke: #1DE019;
 	stroke-width: 0.5;
-	stroke-opacity:0.5;
+	stroke-opacity: 0.5;
+	user-select: none;
 }

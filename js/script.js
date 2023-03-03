@@ -1,74 +1,163 @@
 const rect = document.getElementById("rect");
 const rectDynamic = document.getElementById("rectDynamic");
 const countList = document.querySelector(".count_list");
+const keyboard = document.querySelector(".keyboard");
 const timerAnimation = 1000;
 let pointShift = 0;
 let step = -25;
 let direction = "y";
-let isPaused = false;
+let isPaused = true;
 let intervalId;
 let speed = 500;
 let isControlButtonEnabled = true;
 
 const BUTTONS = {
 
-	"ArrowUp": function () {
+	"ArrowUp": {
 
-		if (!speedUp(-25, "y")) {
-			step = -25;
-			direction = "y";
-		}
+		action: function () {
+			if (!speedUp(-25, "y")) {
+				step = -25;
+				direction = "y";
+			}
+		},
+		screenButton: keyboard.querySelector(".ArrowUp"),
+		isPressed: false,
 	},
-	"ArrowDown": function () {
 
-		if (!speedUp(25, "y")) {
-			step = 25;
-			direction = "y";
-		}
+	"ArrowDown": {
+
+		action: function () {
+
+			if (!speedUp(25, "y")) {
+				step = 25;
+				direction = "y";
+			}
+		},
+		screenButton: keyboard.querySelector(".ArrowDown"),
+		isPressed: false,
 	},
-	"ArrowLeft": function () {
 
-		if (!speedUp(-25, "x")) {
-			step = -25;
-			direction = "x";
-		}
+	"ArrowLeft": {
+
+		action: function () {
+
+			if (!speedUp(-25, "x")) {
+				step = -25;
+				direction = "x";
+			}
+		},
+		screenButton: keyboard.querySelector(".ArrowLeft"),
+		isPressed: false,
 	},
-	"ArrowRight": function () {
 
-		if (!speedUp(25, "x")) {
-			step = 25;
-			direction = "x";
-		}
+	"ArrowRight": {
+
+		action: function () {
+
+			if (!speedUp(25, "x")) {
+				step = 25;
+				direction = "x";
+			}
+		},
+		screenButton: keyboard.querySelector(".ArrowRight"),
+		isPressed: false,
 	},
-	"Space": function () {
 
-		if (isPaused) {
-			pause();
+	"Space": {
 
-		} else {
-			go();
-		}
+		action: function () {
+
+			if (!isPaused) {
+				pause();
+
+			} else {
+				play(this.isPressed);
+			}
+		},
+		screenButton: keyboard.querySelector(".Space"),
+		isPressed: false,
 	},
 }
 
 replaceGoalRect();
 
-document.addEventListener("keydown", keydownHandler);
+document.addEventListener("keydown", keyDownHandler);
+document.addEventListener("keyup", keyUpHandler);
 
-function keydownHandler(event) {
+for (let key in BUTTONS) {
+	BUTTONS[key].screenButton.addEventListener("mousedown", mouseDownHandler);
+	BUTTONS[key].screenButton.addEventListener("mouseup", mouseUpHandler);
+}
+
+function mouseDownHandler(event){
+	const button = event.target.closest(".button");
 
 	for (let key in BUTTONS) {
+		
+		if (button.classList.contains(key)) {
 
-		if (key === event.code) {
-			if ((!isPaused && event.code !== "Space") || !isControlButtonEnabled) {
+			if (isPaused && !button.classList.contains("Space")) {
 				continue;
 			}
-			BUTTONS[key]();
+			if (!isControlButtonEnabled) {
+				continue;
+			}
+			BUTTONS[key].action();
+			BUTTONS[key].isPressed = true;
+			BUTTONS[key].screenButton.classList.add("active");
 		}
 	}
 }
 
-function go() {
+function mouseUpHandler(event) {
+
+	const button = event.target.closest(".button");
+
+	for (let key in BUTTONS) {
+
+		if (button.classList.contains(key)) {
+			BUTTONS[key].isPressed = false;
+			BUTTONS[key].screenButton.classList.remove("active");
+		}
+	}
+}
+
+function keyDownHandler(event) {
+	
+	for (let key in BUTTONS) {
+		
+		if (key === event.code) {
+
+			if (isPaused && event.code !== "Space") {
+				continue;
+			}
+			if (!isControlButtonEnabled) {
+				continue;
+			}
+			BUTTONS[key].action();
+			BUTTONS[key].isPressed = true;
+			BUTTONS[key].screenButton.classList.add("active");
+		}
+	}
+}
+
+function keyUpHandler(event) {
+
+	for (let key in BUTTONS) {
+
+		if (key === event.code) {
+			BUTTONS[key].isPressed = false;
+			BUTTONS[key].screenButton.classList.remove("active");
+		}
+	}
+}
+
+function play(isPressed) {
+	if (isPressed) {
+		return;
+	}
+
 	intervalId = setInterval(() => {
 		rect[direction].baseVal.value = rect[direction].baseVal.value + step;
 
@@ -80,8 +169,10 @@ function go() {
 			meet();
 		}
 
-		isPaused = true;
 	}, speed)
+
+	isPaused = false;
+
 }
 
 function speedUp(newStep, newDirection) {
@@ -118,14 +209,14 @@ function meet() {
 
 	setTimeout(() => {
 		replaceGoalRect();
-		go();
+		play();
 		isControlButtonEnabled = true;
 	}, timerAnimation);
 }
 
 function pause() {
 	clearInterval(intervalId);
-	isPaused = false;
+	isPaused = true;
 }
 
 function rectReset() {
@@ -137,7 +228,7 @@ function rectReset() {
 		step = -25;
 		direction = "y";
 		speed = 500;
-		isPaused = false;
+		isPaused = true;
 	}, timerAnimation);
 }
 
